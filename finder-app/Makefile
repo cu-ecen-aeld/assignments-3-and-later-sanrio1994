@@ -1,26 +1,15 @@
-CC := gcc
-CROSS_COMPILE := aarch64-none-linux-gnu-
-CFLAGS := -Wall -Wextra
-LDFLAGS :=
-SRC := writer.c
-OBJ := $(SRC:.c=.o)
-TARGET := writer
+CC = gcc
+CROSS_COMPILE ?=
+CFLAGS = -Wall -Wextra -std=c99
 
-# Check if CROSS_COMPILE is specified
-ifdef CROSS_COMPILE
-    CC := $(CROSS_COMPILE)gcc
-    TARGET := $(TARGET)_cross
+ifeq ($(CROSS_COMPILE),)
+    COMPILER = $(CC)
+else
+    COMPILER = $(CROSS_COMPILE)gcc
 endif
 
-.PHONY: all clean
-
-all: $(TARGET)
-
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+writer: writer.c
+	$(COMPILER) $(CFLAGS) -o writer writer.c
 
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -f writer
