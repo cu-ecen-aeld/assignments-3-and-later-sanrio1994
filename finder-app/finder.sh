@@ -1,30 +1,14 @@
-#!/bin/bash
-#Assign the arguments to variables
-filesdr=$1
-searchstr=$2
+#!/bin/sh
 
-# Check if arguments were specified
-if [ $# != 2 ]
-then
-echo "Provide Two input arg"
-exit 1
+if [ $# -lt 2 ]
+  then
+    echo "Error: expect 2 parameters"
+    exit 1
+elif [ ! -d $1 ]
+  then
+    echo "Error: Invalid directory on filesystem"
+    exit 1
+else
+    echo "The number of files are $(find $1 -type f | wc -l) and the number of matching lines are $(grep -r $2 $1 | wc -l)"
+    exit 0
 fi
-
-# Check if the filesdr argument is actually a directory
-if [ ! -d ${filesdr} ]
-then
-echo "invalid directory"
-exit 1
-fi
-
-# Obtain the number of files in the search directory
-number_of_files=$(find ${filesdr} -type f | wc -l)
-
-# Obtain the number of matching lines containing the string
-matching_lines=$(grep -r "${searchstr}" ${filesdr}* | wc -l)
-
-# Print the output
-echo "The number of files are ${number_of_files} and the number of matching lines are ${matching_lines}"
-
-# Exit the script with success code
-exit 0

@@ -1,15 +1,8 @@
-CC = gcc
-CROSS_COMPILE ?=
-CFLAGS = -Wall -Wextra -std=c99
+default:
+	gcc -Wall writer.c -o writer
 
-ifeq ($(CROSS_COMPILE),)
-    COMPILER = $(CC)
-else
-    COMPILER = $(CROSS_COMPILE)gcc
-endif
-
-writer: writer.c
-	$(COMPILER) $(CFLAGS) -o writer writer.c
+aarch64-none-linux-gnu-:
+	aarch64-none-linux-gnu-gcc -Wall writer.c -o writer
 
 clean:
-	rm -f writer
+	rm -f writer *.o
