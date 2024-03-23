@@ -30,6 +30,7 @@ void* threadfunc(void* thread_param)
             thread_func_args->thread_complete_success = true;
         }
     }
+    
     return thread_param;
 }
 
